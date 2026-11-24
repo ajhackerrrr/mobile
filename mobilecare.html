@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOBILE CARE — The Complete Digital Shoppe | Perunna</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            mc: {
+              red: '#E11D2E',
+              darkRed: '#BE1222',
+              blush: '#FFF1F2',
+              surface: '#F6F7F9',
+              ink: '#0F1115',
+            }
+          },
+          boxShadow: {
+            'card': '0 4px 20px -2px rgba(15, 17, 21, 0.05)',
+            'card-hover': '0 22px 40px -12px rgba(225, 29, 46, 0.14)',
+            'red-glow': '0 10px 25px -5px rgba(225, 29, 46, 0.38)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FFFFFF;
+      color: #0F1115;
+      overflow-x: hidden;
+      padding-bottom: 68px; /* Space for mobile bottom nav */
+    }
+    @media (min-width: 768px) { body { padding-bottom: 0; } }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Premium smooth hover */
+    .p-card {
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.32s ease, border-color 0.32s ease;
+    }
+    .p-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 40px -12px rgba(15, 17, 21, 0.12);
+      border-color: rgba(225, 29, 46, 0.3);
+    }
+
+    /* Glassmorphism header */
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    /* Smooth animations */
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.94) translateY(14px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .animate-pop { animation: popIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    .animate-drawer { animation: slideIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+    @keyframes pulseSoft {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+    .pulse-badge { animation: pulseSoft 2.2s infinite; }
+
+    .hero-slide { transition: opacity 0.55s ease; }
+  </style>
+</head>
+<body class="antialiased selection:bg-mc-red selection:text-white">
+
+  <!-- TOP ANNOUNCEMENT STRIP -->
+  <div class="bg-mc-ink text-white text-[11px] sm:text-xs py-2">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center gap-2">
+      <div class="flex items-center gap-2 truncate">
+        <span class="bg-mc-red text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0">Live</span>
+        <span class="truncate text-gray-200">Perunna Digital Fest: Up to <b>50% Off</b> on Laptops, Smart TVs & Exchange Bonus!</span>
+      </div>
+      <div class="hidden md:flex items-center gap-4 shrink-0 text-gray-300">
+        <a href="tel:+919895323401" class="hover:text-white transition"><i class="fa-solid fa-phone text-mc-red mr-1"></i>+91 98953 23401</a>
+        <span class="text-gray-600">|</span>
+        <button onclick="openTrackModal()" class="hover:text-white transition"><i class="fa-solid fa-location-dot text-mc-red mr-1"></i>Perunna Store</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKY FROSTED WHITE HEADER (WHITE BG + RED LOGO) -->
+  <header class="sticky top-0 z-40 glass-nav border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3 sm:gap-6">
+      
+      <!-- BRAND LOGO -->
+      <a href="#" onclick="filterCategory('All')" class="flex items-center gap-2.5 shrink-0 group">
+        <div class="w-11 h-11 rounded-2xl bg-white border-2 border-mc-red shadow-sm flex items-center justify-center group-hover:bg-mc-red transition-all duration-300">
+          <i class="fa-solid fa-mobile-screen-button text-xl text-mc-red group-hover:text-white transition-colors"></i>
+        </div>
+        <div>
+          <span class="font-display font-extrabold text-xl sm:text-2xl tracking-tight text-mc-red leading-none block">MOBILE CARE</span>
+          <span class="text-[10px] font-semibold tracking-[0.14em] uppercase text-gray-500 block mt-0.5">The Complete Digital Shoppe</span>
+        </div>
+      </a>
+
+      <!-- SMART LIVE SEARCH WITH DROPDOWN -->
+      <div class="hidden md:block flex-1 max-w-xl relative" id="searchWrapper">
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+          <input 
+            type="text" 
+            id="desktopSearch"
+            oninput="handleLiveSearch(this.value)"
+            onfocus="handleLiveSearch(this.value)"
+            placeholder="Search iPhone 15, MacBook, 4K TV, Split AC, Repair..." 
+            class="w-full pl-11 pr-24 py-2.5 rounded-2xl bg-mc-surface border border-transparent hover:border-gray-200 focus:bg-white focus:border-mc-red focus:ring-4 focus:ring-mc-red/10 text-sm outline-none transition"
+          />
+          <button onclick="scrollToCatalog()" class="absolute right-1.5 top-1/2 -translate-y-1/2 bg-mc-red hover:bg-mc-darkRed text-white text-xs font-semibold px-4 py-1.5 rounded-xl transition">
+            Find
+          </button>
+        </div>
+        <!-- Instant Search Suggestions Dropdown -->
+        <div id="searchDropdown" class="hidden absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"></div>
+      </div>
+
+      <!-- HEADER ACTION BUTTONS -->
+      <div class="flex items-center gap-2 sm:gap-2.5">
+        <a href="#exchange" class="hidden lg:inline-flex items-center gap-1.5 text-xs font-semibold text-gray-700 hover:text-mc-red bg-mc-surface hover:bg-mc-blush px-3.5 py-2.5 rounded-xl transition">
+          <i class="fa-solid fa-rotate text-mc-red"></i> Exchange
+        </a>
+        <a href="#services" class="hidden xl:inline-flex items-center gap-1.5 text-xs font-semibold text-gray-700 hover:text-mc-red bg-mc-surface hover:bg-mc-blush px-3.5 py-2.5 rounded-xl transition">
+          <i class="fa-solid fa-screwdriver-wrench text-mc-red"></i> Repairs
+        </a>
+        <button onclick="toggleWishlistToast()" class="relative w-10 h-10 rounded-xl bg-mc-surface hover:bg-mc-blush text-gray-700 hover:text-mc-red flex items-center justify-center transition" title="Wishlist">
+          <i class="fa-regular fa-heart text-base"></i>
+          <span id="wishBadge" class="hidden absolute -top-1 -right-1 w-4 h-4 bg-mc-red text-white text-[10px] font-bold rounded-full flex items-center justify-center">0</span>
+        </button>
+        <button onclick="toggleCart(true)" class="flex items-center gap-2 bg-mc-ink hover:bg-mc-red text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 shadow-sm">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="hidden sm:inline">Cart</span>
+          <span id="cartBadge" class="bg-mc-red text-white text-[11px] font-bold min-w-[20px] h-5 px-1.5 rounded-full flex items-center justify-center ring-2 ring-white">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- MOBILE SEARCH BAR -->
+    <div class="md:hidden px-4 pb-3">
+      <div class="relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+        <input 
+          type="text" 
+          oninput="filterBySearchText(this.value)"
+          placeholder="Search phones, laptops, TVs, ACs..." 
+          class="w-full pl-9 pr-4 py-2 rounded-xl bg-mc-surface text-sm focus:bg-white focus:ring-2 focus:ring-mc-red/20 outline-none border border-gray-100"
+        />
+      </div>
+    </div>
+  </header>
+
+  <!-- 1-TAP VISUAL CATEGORY DOCK -->
+  <section class="border-b border-gray-100 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+      <div class="flex items-center justify-between gap-3 overflow-x-auto no-scrollbar pb-1">
+        <button onclick="selectDockCategory('All')" data-dock="All" class="dock-btn active group flex flex-col items-center gap-1.5 min-w-[76px] shrink-0">
+          <div class="dock-icon w-14 h-14 rounded-2xl bg-mc-red text-white flex items-center justify-center text-lg shadow-red-glow transition-all duration-300">
+            <i class="fa-solid fa-fire-flame-curved"></i>
+          </div>
+          <span class="text-[11px] font-bold text-mc-red">Big Offers</span>
+        </button>
+
+        <button onclick="selectDockCategory('Mobile Phones')" data-dock="Mobile Phones" class="dock-btn group flex flex-col items-center gap-1.5 min-w-[76px] shrink-0">
+          <div class="dock-icon w-14 h-14 rounded-2xl bg-mc-surface group-hover:bg-mc-blush text-gray-700 group-hover:text-mc-red flex items-center justify-center text-lg transition-all duration-300">
+            <i class="fa-solid fa-mobile-screen"></i>
+          </div>
+          <span class="text-[11px] font-semibold text-gray-700 group-hover:text-mc-red">Mobiles</span>
+        </button>
+
+        <button onclick="selectDockCategory('Apple Products')" data-dock="Apple Products" class="dock-btn group flex flex-col items-center gap-1.5 min-w-[76px] shrink-0">
+          <div class="dock-icon w-14 h-14 rounded-2xl bg-mc-surface group-hover:bg-mc-blush text-gray-700 group-hover:text-mc-red flex items-center justify-center text-xl transition-all duration-300">
+            <i class="fa-brands fa-apple"></i>
+          </div>
+          <span class="text-[11px] font-semibold text-gray-700 group-hover:text-mc-red">Apple Store</span>
+        </button>
+
+        <button onclick="selectDockCategory('Laptops')" data-dock="Laptops" class="dock-btn group flex flex-col items-center gap-1.5 min-w-[76px] shrink-0">
+          <div class="dock-icon w-14 h-14 rounded-2xl bg-mc-surface group-hover:bg-mc-blush text-gray-700 group-hover:text-mc-red flex items-center justify-center text-lg transition-all duration-300">
+            <i class="fa-solid fa-laptop"></i>
+          </div>
+          <span class="text-[11px] font-semibold text-gray-700 group-hover:text-mc-red">Laptops</span>
+        </button>
+
+        <button onclick="selectDockCategory('Televisions')" data-dock="Televisions" class="dock-btn group flex flex-col items-center gap-1.5 min-w-[76px] shrink-0">
+          <div class="dock-icon w-14 h-14 rounded-2xl bg-mc-surface group-hover:bg-mc-blush text-gray-700 group-hover:text-mc-red flex items-center justify-center text-lg transition-all duration-300">
+            <i class="fa-solid fa-tv"></i>
+          </div>
+          <span class="text-[11px] font-semibold text-gray-700 group-hover:text-mc-red">Smart TVs</span>
+        </button>
+
+        <button onclick="selectDockCategory('Air Conditioners')" data-dock="Air Conditioners" class="dock-btn group flex flex-col items-center gap-1.5 min-w-[76px] shrink-0">
+          <div class="dock-icon w-14 h-14 rounded-2xl bg-mc-surface group-hover:bg-mc-blush text-gray-700 group-hover:text-mc-red flex items-center justify-center text-lg transition-all duration-300">
+            <i class="fa-solid fa-wind"></i>
+          </div>
+          <span class="text-[11px] font-semibold text-gray-700 group-hover:text-mc-red">AC & Cooling</span>
+        </button>
+
+        <button onclick="selectDockCategory('Accessories')" data-dock="Accessories" class="dock-btn group flex flex-col items-center gap-1.5 min-w-[76px] shrink-0">
+          <div class="dock-icon w-14 h-14 rounded-2xl bg-mc-surface group-hover:bg-mc-blush text-gray-700 group-hover:text-mc-red flex items-center justify-center text-lg transition-all duration-300">
+            <i class="fa-solid fa-headphones"></i>
+          </div>
+          <span class="text-[11px] font-semibold text-gray-700 group-hover:text-mc-red">Accessories</span>
+        </button>
+
+        <a href="#services" class="group flex flex-col items-center gap-1.5 min-w-[76px] shrink-0">
+          <div class="w-14 h-14 rounded-2xl bg-mc-blush text-mc-red group-hover:bg-mc-red group-hover:text-white flex items-center justify-center text-lg transition-all duration-300">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+          </div>
+          <span class="text-[11px] font-semibold text-gray-700 group-hover:text-mc-red">Repair Hub</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENTO-GRID HIGH-IMPACT HERO -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-5 pb-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      
+      <!-- MAIN INTERACTIVE SLIDER (8 COLS) -->
+      <div class="lg:col-span-8 relative rounded-3xl overflow-hidden bg-mc-ink text-white min-h-[360px] sm:min-h-[420px] shadow-xl">
+        
+        <!-- Slide 1: Flagship Smartphones -->
+        <div class="hero-slide absolute inset-0 p-7 sm:p-10 flex flex-col justify-between bg-gradient-to-br from-[#14171F] via-[#1C1216] to-[#3B0A11]" data-slide="0">
+          <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=900&q=80" alt="iPhone" class="hidden sm:block absolute right-4 bottom-0 w-72 h-72 object-cover rounded-tl-3xl opacity-90 mask-image pointer-events-none shadow-2xl border-t border-l border-white/15">
+          <div class="relative z-10 max-w-md space-y-3">
+            <div class="inline-flex items-center gap-2 bg-mc-red/20 border border-mc-red/40 text-red-300 text-xs font-bold px-3 py-1 rounded-full">
+              <span class="w-2 h-2 rounded-full bg-mc-red animate-ping"></span> iPhone & Flagship Fest
+            </div>
+            <h1 class="font-display text-3xl sm:text-5xl font-extrabold leading-[1.08] tracking-tight">
+              Upgrade to 5G. <br><span class="text-mc-red">Zero Downpayment.</span>
+            </h1>
+            <p class="text-gray-300 text-sm leading-relaxed">
+              Grab iPhone 15 & Samsung Galaxy S24 with instant store exchange bonus + free screen guard at Perunna.
+            </p>
+          </div>
+          <div class="relative z-10 flex flex-wrap items-center gap-3 pt-4">
+            <button onclick="selectDockCategory('Mobile Phones'); scrollToCatalog()" class="bg-mc-red hover:bg-mc-darkRed text-white font-bold px-6 py-3 rounded-xl text-sm shadow-red-glow transition flex items-center gap-2">
+              Shop Smartphones <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <span class="text-xs text-gray-300 bg-white/10 backdrop-blur px-3.5 py-2.5 rounded-xl border border-white/10">
+              EMI from <b class="text-white">₹2,875/mo</b>
+            </span>
+          </div>
+        </div>
+
+        <!-- Slide 2: Laptops -->
+        <div class="hero-slide absolute inset-0 p-7 sm:p-10 flex flex-col justify-between bg-gradient-to-br from-[#0F172A] via-[#171923] to-[#3B0A11] opacity-0 pointer-events-none" data-slide="1">
+          <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=80" alt="Laptop" class="hidden sm:block absolute right-4 bottom-0 w-72 h-72 object-cover rounded-tl-3xl opacity-90 pointer-events-none shadow-2xl border-t border-l border-white/15">
+          <div class="relative z-10 max-w-md space-y-3">
+            <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">
+              <i class="fa-solid fa-bolt text-mc-red"></i> Student & Pro Deals
+            </div>
+            <h2 class="font-display text-3xl sm:text-5xl font-extrabold leading-[1.08] tracking-tight">
+              Laptops & MacBooks <br><span class="text-mc-red">Up to 50% Off</span>
+            </h2>
+            <p class="text-gray-300 text-sm leading-relaxed">
+              HP, Dell, Lenovo, Asus, MSI & Apple MacBook Air with free backpack, wireless mouse & software setup.
+            </p>
+          </div>
+          <div class="relative z-10 flex flex-wrap items-center gap-3 pt-4">
+            <button onclick="selectDockCategory('Laptops'); scrollToCatalog()" class="bg-mc-red hover:bg-mc-darkRed text-white font-bold px-6 py-3 rounded-xl text-sm shadow-red-glow transition flex items-center gap-2">
+              Explore Laptops <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Slide 3: Home Theaters & Smart TVs -->
+        <div class="hero-slide absolute inset-0 p-7 sm:p-10 flex flex-col justify-between bg-gradient-to-br from-[#18181B] via-[#1F1215] to-[#450A0A] opacity-0 pointer-events-none" data-slide="2">
+          <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=900&q=80" alt="Smart TV" class="hidden sm:block absolute right-4 bottom-0 w-72 h-72 object-cover rounded-tl-3xl opacity-90 pointer-events-none shadow-2xl border-t border-l border-white/15">
+          <div class="relative z-10 max-w-md space-y-3">
+            <div class="inline-flex items-center gap-2 bg-mc-red text-white text-xs font-bold px-3 py-1 rounded-full">
+              Big Screen Carnival
+            </div>
+            <h2 class="font-display text-3xl sm:text-5xl font-extrabold leading-[1.08] tracking-tight">
+              4K Smart TVs & Audio <br><span class="text-red-400">Up to 50% Off</span>
+            </h2>
+            <p class="text-gray-300 text-sm leading-relaxed">
+              Cinema experience at home with TCL, VU, Mi, OnePlus TVs & Dolby Home Theaters. Free wall-mount installation!
+            </p>
+          </div>
+          <div class="relative z-10 flex flex-wrap items-center gap-3 pt-4">
+            <button onclick="selectDockCategory('Televisions'); scrollToCatalog()" class="bg-mc-red hover:bg-mc-darkRed text-white font-bold px-6 py-3 rounded-xl text-sm shadow-red-glow transition flex items-center gap-2">
+              Shop Smart TVs <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Slider Dots -->
+        <div class="absolute top-6 right-6 z-20 flex items-center gap-1.5">
+          <button onclick="goToSlide(0)" class="s-dot w-7 h-1.5 rounded-full bg-mc-red transition-all"></button>
+          <button onclick="goToSlide(1)" class="s-dot w-2 h-1.5 rounded-full bg-white/35 hover:bg-white/60 transition-all"></button>
+          <button onclick="goToSlide(2)" class="s-dot w-2 h-1.5 rounded-full bg-white/35 hover:bg-white/60 transition-all"></button>
+        </div>
+      </div>
+
+      <!-- RIGHT BENTO PROMO CARDS (4 COLS) -->
+      <div class="lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+        <!-- Bento Top: Exchange Promo -->
+        <a href="#exchange" class="group relative rounded-3xl p-6 bg-gradient-to-br from-mc-blush via-white to-red-50 border border-red-100 hover:border-mc-red/40 shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between overflow-hidden">
+          <div class="flex justify-between items-start">
+            <span class="bg-mc-red text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">Instant Value</span>
+            <div class="w-10 h-10 rounded-xl bg-white text-mc-red shadow-sm flex items-center justify-center group-hover:rotate-180 transition-transform duration-500">
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </div>
+          </div>
+          <div class="mt-4">
+            <h3 class="font-display font-extrabold text-xl text-mc-ink leading-tight">Exchange Old Phone</h3>
+            <p class="text-xs text-gray-600 mt-1">Get up to <b class="text-mc-red">₹25,000</b> instant discount on your new device.</p>
+            <span class="inline-flex items-center gap-1.5 text-xs font-bold text-mc-red mt-3 group-hover:gap-2.5 transition-all">
+              Check My Phone Value <i class="fa-solid fa-arrow-right"></i>
+            </span>
+          </div>
+        </a>
+
+        <!-- Bento Bottom: Express Repair -->
+        <div onclick="openServiceModal('Express Mobile / Laptop Repair')" class="cursor-pointer group relative rounded-3xl p-6 bg-mc-surface border border-gray-200/70 hover:border-mc-ink/30 shadow-card hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+          <div class="flex justify-between items-start">
+            <span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">60-Min Fix</span>
+            <div class="w-10 h-10 rounded-xl bg-mc-ink text-white flex items-center justify-center group-hover:bg-mc-red transition-colors">
+              <i class="fa-solid fa-screwdriver-wrench"></i>
+            </div>
+          </div>
+          <div class="mt-4">
+            <h3 class="font-display font-extrabold text-xl text-mc-ink leading-tight">Broken Screen or Slow PC?</h3>
+            <p class="text-xs text-gray-600 mt-1">Certified chip-level Mobile, Laptop & DTH repair at Perunna.</p>
+            <span class="inline-flex items-center gap-1.5 text-xs font-bold text-mc-ink group-hover:text-mc-red mt-3 transition-colors">
+              Book Instant Repair <i class="fa-solid fa-arrow-right"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FLASH DEALS URGENCY BAR + PRODUCT CATALOG -->
+  <section id="catalogSection" class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+    
+    <!-- Section Header with Live Countdown -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-mc-surface p-4 sm:p-5 rounded-2xl border border-gray-100 mb-7">
+      <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-widest text-mc-red">Hot Store Deals</span>
+          <h2 id="catalogTitle" class="font-display text-xl sm:text-2xl font-extrabold text-mc-ink">Trending at Mobile Care</h2>
+        </div>
+        <!-- Live Countdown Pill -->
+        <div class="flex items-center gap-2 bg-white px-3.5 py-2 rounded-xl border border-red-100 shadow-xs">
+          <i class="fa-regular fa-clock text-mc-red text-sm"></i>
+          <span class="text-[11px] font-semibold text-gray-500">Ends in</span>
+          <span id="countdownTimer" class="font-display font-extrabold text-sm text-mc-red tracking-wide">04h : 29m : 59s</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5 flex-wrap">
+        <span id="resultsCount" class="text-xs font-semibold text-gray-500 bg-white px-3 py-2 rounded-xl border border-gray-200"></span>
+        <select id="sortSelect" onchange="renderProducts()" class="text-xs sm:text-sm font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl px-3.5 py-2 outline-none focus:border-mc-red cursor-pointer">
+          <option value="featured">Sort: Best Sellers</option>
+          <option value="discount">Highest Discount</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+          <option value="rating">Top Rated</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- PRODUCTS GRID -->
+    <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <!-- Populated by JS -->
+    </div>
+  </section>
+
+  <!-- INTERACTIVE OLD PHONE EXCHANGE ESTIMATOR -->
+  <section id="exchange" class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+    <div class="rounded-3xl bg-gradient-to-r from-mc-ink via-[#1B1418] to-[#3D0910] text-white p-6 sm:p-10 shadow-xl overflow-hidden relative">
+      <div class="grid lg:grid-cols-12 gap-8 items-center relative z-10">
+        <div class="lg:col-span-5 space-y-3">
+          <span class="inline-block bg-mc-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">Smart Upgrade</span>
+          <h2 class="font-display text-2xl sm:text-4xl font-extrabold leading-tight">Trade In Your Old Phone, Pay Much Less!</h2>
+          <p class="text-gray-300 text-sm leading-relaxed">Select your current phone and condition to get an instant trade-in estimate valid at our Perunna store.</p>
+          <div class="flex items-center gap-4 pt-2 text-xs text-gray-300">
+            <span><i class="fa-solid fa-check text-emerald-400 mr-1"></i> Instant Spot Cash / Discount</span>
+            <span><i class="fa-solid fa-check text-emerald-400 mr-1"></i> Safe Data Wipe</span>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-5 sm:p-6">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1.5">Your Old Smartphone</label>
+              <select id="exModel" onchange="calculateExchange()" class="w-full bg-white text-mc-ink font-semibold text-sm rounded-xl px-4 py-3 outline-none">
+                <option value="24000">Apple iPhone 13 (128GB)</option>
+                <option value="32000">Apple iPhone 14 (128GB)</option>
+                <option value="18000">Samsung Galaxy S22 / S23 FE</option>
+                <option value="13500">OnePlus Nord CE 3 / 11R</option>
+                <option value="8500">Redmi Note 12 / 13 Pro</option>
+                <option value="7500">Vivo / Oppo 5G Series</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1.5">Device Condition</label>
+              <select id="exCondition" onchange="calculateExchange()" class="w-full bg-white text-mc-ink font-semibold text-sm rounded-xl px-4 py-3 outline-none">
+                <option value="1">Flawless (No Scratches + Box)</option>
+                <option value="0.82">Good (Minor Usage Marks)</option>
+                <option value="0.55">Cracked Screen / Battery Issue</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-5 border-t border-white/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <p class="text-xs text-gray-300">Estimated Instant Exchange Value</p>
+              <p id="exResult" class="font-display text-3xl sm:text-4xl font-extrabold text-emerald-400 mt-0.5">₹24,000</p>
+            </div>
+            <button onclick="claimExchangeQuote()" class="bg-mc-red hover:bg-mc-darkRed text-white font-bold px-6 py-3.5 rounded-xl text-sm shadow-red-glow transition flex items-center justify-center gap-2">
+              <i class="fa-brands fa-whatsapp text-lg"></i> Lock This Price
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP BY BRANDS -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
+      <div>
+        <span class="text-[11px] font-bold uppercase tracking-widest text-mc-red">100% Authorized</span>
+        <h2 class="font-display text-2xl font-extrabold text-mc-ink">Shop Your Favorite Brands</h2>
+      </div>
+      <div class="inline-flex bg-mc-surface p-1 rounded-xl border border-gray-100 self-start">
+        <button onclick="switchBrandTab('smartphones')" id="btab-smartphones" class="b-tab px-4 py-1.5 rounded-lg text-xs font-bold bg-white text-mc-red shadow-xs transition">Smartphones</button>
+        <button onclick="switchBrandTab('laptops')" id="btab-laptops" class="b-tab px-4 py-1.5 rounded-lg text-xs font-bold text-gray-500 hover:text-mc-ink transition">Laptops</button>
+        <button onclick="switchBrandTab('tvs')" id="btab-tvs" class="b-tab px-4 py-1.5 rounded-lg text-xs font-bold text-gray-500 hover:text-mc-ink transition">Smart TVs</button>
+      </div>
+    </div>
+    <div id="brandsGrid" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3"></div>
+  </section>
+
+  <!-- VERIFIED CUSTOMER REVIEWS SHOWCASE (TRUST BUILDER) -->
+  <section class="bg-mc-surface py-12 my-6 border-y border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-widest text-mc-red">4.9 ★ Rated in Changanassery</span>
+          <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-mc-ink mt-1">Why Customers Love Mobile Care</h2>
+        </div>
+        <button onclick="openProductModal(1)" class="text-xs font-bold text-mc-red hover:underline self-start sm:self-auto">
+          Write a Product Review →
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-card">
+          <div class="flex items-center justify-between mb-3">
+            <div class="text-amber-400 text-xs flex gap-0.5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full"><i class="fa-solid fa-circle-check mr-1"></i>Verified Buyer</span>
+          </div>
+          <p class="text-sm text-gray-700 leading-relaxed">"Bought my iPhone 15 from Mobile Care Perunna. Got a better exchange rate than online apps and they transferred all my WhatsApp data for free!"</p>
+          <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
+            <span class="font-bold text-mc-ink">Arjun Krishnan</span>
+            <span class="text-gray-400">iPhone 15 (128GB)</span>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-card">
+          <div class="flex items-center justify-between mb-3">
+            <div class="text-amber-400 text-xs flex gap-0.5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full"><i class="fa-solid fa-circle-check mr-1"></i>Verified Buyer</span>
+          </div>
+          <p class="text-sm text-gray-700 leading-relaxed">"My HP laptop display was damaged before college exams. They replaced it within the same evening at a very reasonable price. Super friendly technicians."</p>
+          <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
+            <span class="font-bold text-mc-ink">Meera Nair</span>
+            <span class="text-gray-400">Laptop Repair Service</span>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-card">
+          <div class="flex items-center justify-between mb-3">
+            <div class="text-amber-400 text-xs flex gap-0.5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full"><i class="fa-solid fa-circle-check mr-1"></i>Verified Buyer</span>
+          </div>
+          <p class="text-sm text-gray-700 leading-relaxed">"Ordered a 55-inch 4K Smart TV and home theater combo. Delivery and wall-mounting happened on the very same day. Highly recommend!"</p>
+          <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
+            <span class="font-bold text-mc-ink">Suresh Philip</span>
+            <span class="text-gray-400">TCL 55" 4K Smart TV</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES HUB -->
+  <section id="services" class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+    <div class="text-center max-w-xl mx-auto mb-10">
+      <span class="text-[11px] font-bold uppercase tracking-widest text-mc-red">In-House Experts</span>
+      <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-mc-ink mt-1">Fast Repair & Digital Services</h2>
+      <p class="text-sm text-gray-500 mt-1.5">Genuine spare parts, transparent pricing, and quick turnaround.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="p-card bg-white rounded-2xl p-6 border border-gray-200/80 flex flex-col justify-between">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-mc-blush text-mc-red flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-mobile-screen"></i></div>
+          <h3 class="font-display font-bold text-base text-mc-ink">Mobile Phone Repairs</h3>
+          <p class="text-xs text-gray-500 mt-2 leading-relaxed">Prompt display replacement, original battery change, charging port & motherboard repairs.</p>
+        </div>
+        <button onclick="openServiceModal('Mobile Phone Repairs')" class="mt-5 w-full py-2.5 rounded-xl bg-mc-surface hover:bg-mc-red hover:text-white text-xs font-bold text-mc-ink transition">Book Repair →</button>
+      </div>
+
+      <div class="p-card bg-white rounded-2xl p-6 border border-gray-200/80 flex flex-col justify-between">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-mc-blush text-mc-red flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-compact-disc"></i></div>
+          <h3 class="font-display font-bold text-base text-mc-ink">Software Installation</h3>
+          <p class="text-xs text-gray-500 mt-2 leading-relaxed">Windows/Mac OS upgrades, licensed software setup, antivirus & secure data recovery.</p>
+        </div>
+        <button onclick="openServiceModal('Software Installation')" class="mt-5 w-full py-2.5 rounded-xl bg-mc-surface hover:bg-mc-red hover:text-white text-xs font-bold text-mc-ink transition">Book Service →</button>
+      </div>
+
+      <div class="p-card bg-white rounded-2xl p-6 border border-gray-200/80 flex flex-col justify-between">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-mc-blush text-mc-red flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-laptop-medical"></i></div>
+          <h3 class="font-display font-bold text-base text-mc-ink">Laptop & Desktop Repair</h3>
+          <p class="text-xs text-gray-500 mt-2 leading-relaxed">SSD/RAM speed upgrades, hinge & keyboard fixes, and full servicing at affordable rates.</p>
+        </div>
+        <button onclick="openServiceModal('Laptop & Desktop Repair')" class="mt-5 w-full py-2.5 rounded-xl bg-mc-surface hover:bg-mc-red hover:text-white text-xs font-bold text-mc-ink transition">Book Repair →</button>
+      </div>
+
+      <div class="p-card bg-white rounded-2xl p-6 border border-gray-200/80 flex flex-col justify-between">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-mc-blush text-mc-red flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-satellite-dish"></i></div>
+          <h3 class="font-display font-bold text-base text-mc-ink">DTH TV Broadcast Service</h3>
+          <p class="text-xs text-gray-500 mt-2 leading-relaxed">New DTH connections, dish alignment, set-top box repairs & instant recharge support.</p>
+        </div>
+        <button onclick="openServiceModal('DTH TV Broadcast Service')" class="mt-5 w-full py-2.5 rounded-xl bg-mc-surface hover:bg-mc-red hover:text-white text-xs font-bold text-mc-ink transition">Book Technician →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-gray-200 pt-12 pb-8 mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-gray-100">
+      <div class="md:col-span-2 space-y-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl border-2 border-mc-red flex items-center justify-center">
+            <i class="fa-solid fa-mobile-screen-button text-mc-red text-lg"></i>
+          </div>
+          <div>
+            <span class="font-display font-extrabold text-xl text-mc-red block leading-none">MOBILE CARE</span>
+            <span class="text-[10px] uppercase tracking-widest text-gray-500">The Complete Digital Shoppe</span>
+          </div>
+        </div>
+        <p class="text-xs sm:text-sm text-gray-500 max-w-md leading-relaxed">
+          Perunna's complete destination for genuine Smartphones, Laptops, Smart TVs, Air Conditioners, Accessories & Express Repairs.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="font-display font-bold text-xs uppercase tracking-wider text-mc-ink mb-3">Categories</h4>
+        <ul class="space-y-2 text-xs sm:text-sm text-gray-600">
+          <li><button onclick="selectDockCategory('Mobile Phones'); scrollToCatalog()" class="hover:text-mc-red">Mobile Phones</button></li>
+          <li><button onclick="selectDockCategory('Apple Products'); scrollToCatalog()" class="hover:text-mc-red">Apple Products</button></li>
+          <li><button onclick="selectDockCategory('Laptops'); scrollToCatalog()" class="hover:text-mc-red">Laptops & MacBooks</button></li>
+          <li><button onclick="selectDockCategory('Televisions'); scrollToCatalog()" class="hover:text-mc-red">Smart TVs & Audio</button></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-display font-bold text-xs uppercase tracking-wider text-mc-ink mb-3">Visit or Call</h4>
+        <ul class="space-y-2 text-xs sm:text-sm text-gray-600">
+          <li><i class="fa-solid fa-location-dot text-mc-red mr-2"></i>Perunna, Changanassery</li>
+          <li><i class="fa-solid fa-phone text-mc-red mr-2"></i>+91 98953 23401 / +91 96561 30936</li>
+          <li><i class="fa-solid fa-envelope text-mc-red mr-2"></i>mobilecarechry@gmail.com</li>
+          <li><i class="fa-solid fa-envelope text-mc-red mr-2"></i>arunslive@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-5 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 gap-2">
+      <p>© 2026 Mobile Care Digital. All rights reserved.</p>
+      <p>Designed for High-Speed Shopping & Easy Access</p>
+    </div>
+  </footer>
+
+  <!-- DESKTOP FLOATING WHATSAPP -->
+  <a href="https://wa.me/919895323401?text=Hi%20Mobile%20Care!%20I%20need%20help%20buying%20a%20product." target="_blank" class="hidden md:flex fixed bottom-6 right-6 z-30 items-center gap-2.5 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-3 rounded-full shadow-xl transition hover:scale-105">
+    <i class="fa-brands fa-whatsapp text-xl"></i>
+    <span class="text-xs font-bold">Chat to Buy</span>
+  </a>
+
+  <!-- MOBILE APP-STYLE BOTTOM NAVIGATION -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200 px-2 py-2 flex justify-around items-center text-[10px] font-semibold text-gray-600">
+    <a href="#" class="flex flex-col items-center gap-0.5 text-mc-red"><i class="fa-solid fa-house text-base"></i>Home</a>
+    <button onclick="scrollToCatalog()" class="flex flex-col items-center gap-0.5"><i class="fa-solid fa-fire text-base"></i>Deals</button>
+    <a href="#exchange" class="flex flex-col items-center gap-0.5"><i class="fa-solid fa-rotate text-base"></i>Exchange</a>
+    <button onclick="toggleCart(true)" class="relative flex flex-col items-center gap-0.5">
+      <i class="fa-solid fa-bag-shopping text-base"></i>Cart
+      <span id="mobileCartDot" class="hidden absolute -top-1 right-0 w-4 h-4 bg-mc-red text-white text-[9px] font-bold rounded-full flex items-center justify-center">0</span>
+    </button>
+    <a href="https://wa.me/919895323401" target="_blank" class="flex flex-col items-center gap-0.5 text-emerald-600"><i class="fa-brands fa-whatsapp text-base"></i>WhatsApp</a>
+  </nav>
+
+  <!-- PRODUCT QUICK VIEW + VARIANTS + REVIEWS MODAL -->
+  <div id="productModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl animate-pop relative">
+      <button onclick="closeProductModal()" class="sticky top-4 float-right mr-4 mt-4 w-9 h-9 rounded-full bg-mc-surface hover:bg-mc-red hover:text-white flex items-center justify-center transition z-20">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div id="productModalContent" class="p-5 sm:p-8 clear-both"></div>
+    </div>
+  </div>
+
+  <!-- SLIDE-OUT CART DRAWER -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 hidden justify-end bg-black/50 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-md h-full flex flex-col shadow-2xl animate-drawer">
+      <div class="p-5 border-b border-gray-100 flex items-center justify-between">
+        <div>
+          <h3 class="font-display font-extrabold text-lg text-mc-ink flex items-center gap-2">
+            <i class="fa-solid fa-bag-shopping text-mc-red"></i> Shopping Bag
+          </h3>
+          <p class="text-[11px] text-emerald-600 font-semibold">Free Same-Day Delivery / Perunna Pickup</p>
+        </div>
+        <button onclick="toggleCart(false)" class="w-8 h-8 rounded-full bg-mc-surface hover:bg-gray-200 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-5 space-y-3.5"></div>
+
+      <div class="p-5 border-t border-gray-100 bg-mc-surface space-y-3">
+        <div class="flex justify-between text-xs text-emerald-600 font-semibold">
+          <span>Total Savings</span>
+          <span id="cartSavings">₹0</span>
+        </div>
+        <div class="flex justify-between font-display font-extrabold text-xl text-mc-ink">
+          <span>Payable Total</span>
+          <span id="cartTotal">₹0</span>
+        </div>
+        <button onclick="openCheckoutModal()" id="checkoutBtn" class="w-full bg-mc-red hover:bg-mc-darkRed disabled:bg-gray-300 text-white font-bold py-3.5 rounded-xl transition shadow-red-glow text-sm">
+          Checkout Now <i class="fa-solid fa-arrow-right ml-1.5"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT MODAL -->
+  <div id="checkoutModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl animate-pop relative">
+      <button onclick="closeCheckoutModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-mc-surface hover:bg-gray-200 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+      <span class="text-[11px] font-bold uppercase tracking-wider text-mc-red">Fast Checkout</span>
+      <h3 class="font-display font-extrabold text-2xl text-mc-ink mb-4">Complete Your Order</h3>
+      <form onsubmit="submitOrder(event)" class="space-y-3.5">
+        <input type="text" required placeholder="Your Full Name" class="w-full px-4 py-2.5 rounded-xl bg-mc-surface border border-gray-200 text-sm outline-none focus:bg-white focus:border-mc-red">
+        <input type="tel" required placeholder="WhatsApp / Mobile Number" class="w-full px-4 py-2.5 rounded-xl bg-mc-surface border border-gray-200 text-sm outline-none focus:bg-white focus:border-mc-red">
+        <textarea rows="2" required placeholder="Delivery Address or type 'Perunna Store Pickup'" class="w-full px-4 py-2.5 rounded-xl bg-mc-surface border border-gray-200 text-sm outline-none focus:bg-white focus:border-mc-red"></textarea>
+        <div class="grid grid-cols-3 gap-2 text-xs font-semibold">
+          <label class="border border-gray-200 rounded-xl p-2.5 flex items-center gap-1.5 cursor-pointer has-[:checked]:border-mc-red has-[:checked]:bg-mc-blush"><input type="radio" name="pay" checked class="accent-mc-red"> UPI / GPay</label>
+          <label class="border border-gray-200 rounded-xl p-2.5 flex items-center gap-1.5 cursor-pointer has-[:checked]:border-mc-red has-[:checked]:bg-mc-blush"><input type="radio" name="pay" class="accent-mc-red"> Easy EMI</label>
+          <label class="border border-gray-200 rounded-xl p-2.5 flex items-center gap-1.5 cursor-pointer has-[:checked]:border-mc-red has-[:checked]:bg-mc-blush"><input type="radio" name="pay" class="accent-mc-red"> Pay at Store</label>
+        </div>
+        <div class="pt-2 space-y-2">
+          <button type="submit" class="w-full bg-mc-red hover:bg-mc-darkRed text-white font-bold py-3.5 rounded-xl text-sm shadow-red-glow transition">
+            Place Order (<span id="checkoutTotalLabel">₹0</span>)
+          </button>
+          <button type="button" onclick="orderViaWhatsApp()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl text-sm transition flex items-center justify-center gap-2">
+            <i class="fa-brands fa-whatsapp text-base"></i> Confirm Instantly on WhatsApp
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SERVICE BOOKING MODAL -->
+  <div id="serviceModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl animate-pop relative">
+      <button onclick="closeServiceModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-mc-surface hover:bg-gray-200 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+      <span class="text-[11px] font-bold uppercase tracking-wider text-mc-red">Mobile Care Service Desk</span>
+      <h3 id="serviceModalTitle" class="font-display font-extrabold text-xl text-mc-ink mt-0.5 mb-4">Book Repair</h3>
+      <form onsubmit="submitServiceRequest(event)" class="space-y-3">
+        <input type="text" required placeholder="Your Name" class="w-full px-4 py-2.5 rounded-xl bg-mc-surface border border-gray-200 text-sm outline-none focus:bg-white focus:border-mc-red">
+        <input type="tel" required placeholder="Phone Number" class="w-full px-4 py-2.5 rounded-xl bg-mc-surface border border-gray-200 text-sm outline-none focus:bg-white focus:border-mc-red">
+        <input type="text" required placeholder="Device Model (e.g. iPhone 13, Dell Inspiron)" class="w-full px-4 py-2.5 rounded-xl bg-mc-surface border border-gray-200 text-sm outline-none focus:bg-white focus:border-mc-red">
+        <textarea rows="2" required placeholder="What issue are you facing?" class="w-full px-4 py-2.5 rounded-xl bg-mc-surface border border-gray-200 text-sm outline-none focus:bg-white focus:border-mc-red"></textarea>
+        <button type="submit" class="w-full bg-mc-red hover:bg-mc-darkRed text-white font-bold py-3 rounded-xl text-sm shadow-red-glow transition">Get Callback in 15 Mins</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 bg-mc-ink text-white px-5 py-3 rounded-2xl text-xs sm:text-sm font-semibold shadow-2xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2.5">
+    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+    <span id="toastMsg">Done!</span>
+  </div>
+
+  <script>
+    // ---------- RICH PRODUCT CATALOG ----------
+    const defaultProducts = [
+      {
+        id: 1,
+        name: "Apple iPhone 15 — Midnight Black",
+        brand: "Apple",
+        category: "Apple Products",
+        subCategory: "Mobile Phones",
+        price: 68999,
+        mrp: 79900,
+        badge: "Best Seller",
+        boughtCount: "48 bought this week",
+        variants: [{ label: "128GB", delta: 0 }, { label: "256GB", delta: 10000 }],
+        image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=700&q=80",
+        specs: "6.1\" Super Retina XDR • A16 Bionic • 48MP Camera • USB-C • 1 Yr Apple Warranty",
+        reviews: [
+          { user: "Arjun K.", rating: 5, date: "2 days ago", text: "Best deal in Changanassery! Got instant exchange discount and free glass." },
+          { user: "Sneha M.", rating: 5, date: "1 week ago", text: "Sealed pack genuine piece, very polite staff." }
+        ]
+      },
+      {
+        id: 2,
+        name: "Samsung Galaxy S24 5G (Galaxy AI)",
+        brand: "Samsung",
+        category: "Mobile Phones",
+        price: 62999,
+        mrp: 79999,
+        badge: "Top Rated",
+        boughtCount: "34 bought this week",
+        variants: [{ label: "128GB", delta: 0 }, { label: "256GB", delta: 6000 }],
+        image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=700&q=80",
+        specs: "120Hz Dynamic AMOLED 2X • Circle to Search • Triple 50MP Camera • IP68",
+        reviews: [
+          { user: "Rahul V.", rating: 5, date: "3 days ago", text: "Compact beast, camera quality is unreal." }
+        ]
+      },
+      {
+        id: 3,
+        name: "HP Pavilion 15 Core i5 13th Gen",
+        brand: "HP",
+        category: "Laptops",
+        price: 53990,
+        mrp: 72500,
+        badge: "Student Deal",
+        boughtCount: "27 bought this week",
+        variants: [{ label: "16GB / 512GB", delta: 0 }, { label: "16GB / 1TB", delta: 5500 }],
+        image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=700&q=80",
+        specs: "Intel Core i5 13th Gen • 16GB RAM • NVMe SSD • Windows 11 + Free Bag & Mouse",
+        reviews: [
+          { user: "Deepak T.", rating: 5, date: "4 days ago", text: "Cheaper than online sale and got free software installation!" }
+        ]
+      },
+      {
+        id: 4,
+        name: "Apple MacBook Air M2 (13.6-inch)",
+        brand: "Apple",
+        category: "Laptops",
+        subCategory: "Apple Products",
+        price: 87990,
+        mrp: 99900,
+        badge: "Pro Pick",
+        boughtCount: "19 bought this week",
+        variants: [{ label: "8GB / 256GB", delta: 0 }, { label: "16GB / 512GB", delta: 18000 }],
+        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=700&q=80",
+        specs: "Apple M2 Chip • 18Hr Battery • Liquid Retina Display • Silent Fanless Design",
+        reviews: [
+          { user: "Meera R.", rating: 5, date: "1 week ago", text: "Super smooth for coding and video editing." }
+        ]
+      },
+      {
+        id: 5,
+        name: "TCL 55\" 4K Ultra HD Smart Google TV",
+        brand: "TCL",
+        category: "Televisions",
+        price: 33990,
+        mrp: 58990,
+        badge: "42% Off",
+        boughtCount: "22 bought this week",
+        variants: [{ label: "55-inch 4K", delta: 0 }, { label: "65-inch 4K", delta: 14000 }],
+        image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=700&q=80",
+        specs: "4K HDR10 • Dolby Audio • Metallic Bezel-Less • Free Same-Day Wall Mount",
+        reviews: [
+          { user: "Suresh P.", rating: 5, date: "5 days ago", text: "Crystal clear display and same day installation at home." }
+        ]
+      },
+      {
+        id: 6,
+        name: "OnePlus Nord CE 4 5G (100W Charge)",
+        brand: "OnePlus",
+        category: "Mobile Phones",
+        price: 23499,
+        mrp: 26999,
+        badge: "Value King",
+        boughtCount: "61 bought this week",
+        variants: [{ label: "8GB / 128GB", delta: 0 }, { label: "8GB / 256GB", delta: 2000 }],
+        image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=700&q=80",
+        specs: "Snapdragon 7 Gen 3 • 5500mAh Battery • 100W SUPERVOOC • 120Hz AMOLED",
+        reviews: [
+          { user: "Nikhil S.", rating: 5, date: "2 days ago", text: "1 to 100% charge in under 30 mins. Best under 25k." }
+        ]
+      },
+      {
+        id: 7,
+        name: "1.5 Ton 5-Star Convertible Split AC",
+        brand: "Voltas / LG",
+        category: "Air Conditioners",
+        price: 36990,
+        mrp: 54990,
+        badge: "Energy Saver",
+        boughtCount: "16 bought this week",
+        variants: [{ label: "1.5 Ton 5★", delta: 0 }, { label: "2.0 Ton 5★", delta: 9500 }],
+        image: "https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=700&q=80",
+        specs: "100% Copper • 5-in-1 Convertible Cooling • Anti-Dust Filter • 10 Yr Warranty",
+        reviews: [
+          { user: "Manoj K.", rating: 5, date: "1 week ago", text: "Super fast cooling even in peak Kerala summer." }
+        ]
+      },
+      {
+        id: 8,
+        name: "Pro ANC Wireless Headphones + Powerbank",
+        brand: "Accessories",
+        category: "Accessories",
+        price: 2799,
+        mrp: 4999,
+        badge: "Combo Deal",
+        boughtCount: "53 bought this week",
+        variants: [{ label: "Black Combo", delta: 0 }, { label: "White Combo", delta: 0 }],
+        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80",
+        specs: "Active Noise Cancellation • 45Hr Battery + 20000mAh 22.5W Fast Powerbank",
+        reviews: [
+          { user: "Aswin B.", rating: 4, date: "3 days ago", text: "Solid bass and super useful travel combo." }
+        ]
+      }
+    ];
+
+    let products = JSON.parse(localStorage.getItem('mc_v2_products')) || defaultProducts;
+    let cart = JSON.parse(localStorage.getItem('mc_v2_cart')) || [];
+    let wishlist = JSON.parse(localStorage.getItem('mc_v2_wish')) || [];
+    let currentCategory = 'All';
+    let searchQuery = '';
+    let modalRating = 5;
+    let activeVariantDelta = 0;
+    let activeVariantLabel = '';
+
+    const brandsData = {
+      smartphones: ["Samsung", "Apple", "Mi", "Oppo", "Vivo", "OnePlus", "Realme", "Nokia"],
+      laptops: ["HP", "Lenovo", "Dell", "Asus", "Acer", "Apple", "Mi", "MSI"],
+      tvs: ["Mi", "Realme TV", "OnePlus TV", "VU", "TCL", "iFFALCON", "iTel TV", "Treeview"]
+    };
+
+    const formatINR = n => "₹" + n.toLocaleString('en-IN');
+    const getEMI = price => Math.round(price / 24);
+    const getAvg = revs => revs.length ? (revs.reduce((a, b) => a + b.rating, 0) / revs.length).toFixed(1) : "4.8";
+    const starsHTML = r => Array.from({length: 5}, (_, i) => `<i class="fa-${i < Math.round(r) ? 'solid' : 'regular'} fa-star text-amber-400"></i>`).join('');
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      el.classList.remove('opacity-0', 'pointer-events-none');
+      el.classList.add('opacity-100');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        el.classList.add('opacity-0', 'pointer-events-none');
+        el.classList.remove('opacity-100');
+      }, 2600);
+    }
+
+    function scrollToCatalog() {
+      document.getElementById('catalogSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // ---------- LIVE COUNTDOWN TIMER ----------
+    let secLeft = (4 * 3600) + (29 * 60) + 59;
+    setInterval(() => {
+      secLeft = secLeft > 0 ? secLeft - 1 : 16199;
+      const h = String(Math.floor(secLeft / 3600)).padStart(2, '0');
+      const m = String(Math.floor((secLeft % 3600) / 60)).padStart(2, '0');
+      const s = String(secLeft % 60).padStart(2, '0');
+      document.getElementById('countdownTimer').textContent = `${h}h : ${m}m : ${s}s`;
+    }, 1000);
+
+    // ---------- HERO SLIDER ----------
+    let slideIdx = 0;
+    function goToSlide(i) {
+      slideIdx = i;
+      document.querySelectorAll('.hero-slide').forEach((s, idx) => {
+        s.classList.toggle('opacity-0', idx !== i);
+        s.classList.toggle('pointer-events-none', idx !== i);
+      });
+      document.querySelectorAll('.s-dot').forEach((d, idx) => {
+        d.className = idx === i ? 's-dot w-7 h-1.5 rounded-full bg-mc-red transition-all' : 's-dot w-2 h-1.5 rounded-full bg-white/35 hover:bg-white/60 transition-all';
+      });
+    }
+    setInterval(() => goToSlide((slideIdx + 1) % 3), 5200);
+
+    // ---------- SMART LIVE SEARCH DROPDOWN ----------
+    function handleLiveSearch(val) {
+      searchQuery = val.trim().toLowerCase();
+      const dd = document.getElementById('searchDropdown');
+      renderProducts();
+
+      if (!searchQuery) { dd.classList.add('hidden'); return; }
+
+      const matches = products.filter(p =>
+        p.name.toLowerCase().includes(searchQuery) ||
+        p.brand.toLowerCase().includes(searchQuery) ||
+        p.category.toLowerCase().includes(searchQuery)
+      ).slice(0, 5);
+
+      if (!matches.length) {
+        dd.innerHTML = `<div class="p-4 text-xs text-gray-500 text-center">No exact matches for "${val}"</div>`;
+      } else {
+        dd.innerHTML = matches.map(p => `
+          <div onclick="openProductModal(${p.id}); document.getElementById('searchDropdown').classList.add('hidden')" class="flex items-center gap-3 p-3 hover:bg-mc-blush/50 cursor-pointer border-b border-gray-50 last:border-0 transition">
+            <img src="${p.image}" class="w-11 h-11 rounded-lg object-cover bg-mc-surface">
+            <div class="flex-1 min-w-0">
+              <p class="text-xs font-bold text-mc-ink truncate">${p.name}</p>
+              <p class="text-[11px] text-gray-500">${p.brand} • <span class="text-mc-red font-bold">${formatINR(p.price)}</span></p>
+            </div>
+            <span class="text-[10px] font-bold text-mc-red bg-mc-blush px-2 py-1 rounded-lg">View</span>
+          </div>
+        `).join('');
+      }
+      dd.classList.remove('hidden');
+    }
+
+    function filterBySearchText(val) {
+      searchQuery = val.trim().toLowerCase();
+      renderProducts();
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!document.getElementById('searchWrapper')?.contains(e.target)) {
+        document.getElementById('searchDropdown')?.classList.add('hidden');
+      }
+    });
+
+    // ---------- CATEGORY DOCK ----------
+    function selectDockCategory(cat) {
+      currentCategory = cat;
+      searchQuery = '';
+      if (document.getElementById('desktopSearch')) document.getElementById('desktopSearch').value = '';
+
+      document.querySelectorAll('.dock-btn').forEach(btn => {
+        const isActive = btn.dataset.dock === cat;
+        const icon = btn.querySelector('.dock-icon');
+        const label = btn.querySelector('span');
+        if (isActive) {
+          icon.className = 'dock-icon w-14 h-14 rounded-2xl bg-mc-red text-white flex items-center justify-center text-lg shadow-red-glow transition-all duration-300';
+          label.className = 'text-[11px] font-bold text-mc-red';
+        } else {
+          icon.className = 'dock-icon w-14 h-14 rounded-2xl bg-mc-surface group-hover:bg-mc-blush text-gray-700 group-hover:text-mc-red flex items-center justify-center text-lg transition-all duration-300';
+          label.className = 'text-[11px] font-semibold text-gray-700 group-hover:text-mc-red';
+        }
+      });
+
+      document.getElementById('catalogTitle').textContent = cat === 'All' ? 'Trending at Mobile Care' : cat;
+      renderProducts();
+    }
+
+    // ---------- WISHLIST ----------
+    function toggleWish(e, id) {
+      e.stopPropagation();
+      if (wishlist.includes(id)) {
+        wishlist = wishlist.filter(x => x !== id);
+        showToast("Removed from wishlist");
+      } else {
+        wishlist.push(id);
+        showToast("Saved to your wishlist ❤️");
+      }
+      localStorage.setItem('mc_v2_wish', JSON.stringify(wishlist));
+      updateWishBadge();
+      renderProducts();
+    }
+
+    function updateWishBadge() {
+      const b = document.getElementById('wishBadge');
+      b.textContent = wishlist.length;
+      b.classList.toggle('hidden', wishlist.length === 0);
+    }
+
+    function toggleWishlistToast() {
+      showToast(wishlist.length ? `You have ${wishlist.length} saved item(s)!` : "Tap ♥ on any product to save it.");
+    }
+
+    // ---------- RENDER HIGH-CONVERSION PRODUCT CARDS ----------
+    function renderProducts() {
+      let list = products.filter(p => {
+        const catOk = currentCategory === 'All' || p.category === currentCategory || p.subCategory === currentCategory;
+        const qOk = !searchQuery || p.name.toLowerCase().includes(searchQuery) || p.brand.toLowerCase().includes(searchQuery) || p.category.toLowerCase().includes(searchQuery);
+        return catOk && qOk;
+      });
+
+      const sort = document.getElementById('sortSelect').value;
+      if (sort === 'low') list.sort((a, b) => a.price - b.price);
+      if (sort === 'high') list.sort((a, b) => b.price - a.price);
+      if (sort === 'discount') list.sort((a, b) => (b.mrp - b.price) - (a.mrp - a.price));
+      if (sort === 'rating') list.sort((a, b) => getAvg(b.reviews) - getAvg(a.reviews));
+
+      document.getElementById('resultsCount').textContent = `${list.length} items ready`;
+      const grid = document.getElementById('productsGrid');
+
+      if (!list.length) {
+        grid.innerHTML = `
+          <div class="col-span-full py-16 text-center bg-mc-surface rounded-3xl">
+            <p class="font-display font-bold text-lg text-mc-ink">No products matched your search</p>
+            <button onclick="selectDockCategory('All')" class="mt-3 bg-mc-red text-white text-xs font-bold px-5 py-2.5 rounded-xl">Show All Deals</button>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = list.map(p => {
+        const saveAmt = p.mrp - p.price;
+        const pct = Math.round((saveAmt / p.mrp) * 100);
+        const avg = getAvg(p.reviews);
+        const isWished = wishlist.includes(p.id);
+
+        return `
+          <div class="p-card bg-white rounded-2xl border border-gray-200/80 overflow-hidden flex flex-col justify-between group">
+            <!-- Image Stage -->
+            <div onclick="openProductModal(${p.id})" class="relative bg-mc-surface h-52 overflow-hidden cursor-pointer">
+              <span class="absolute top-3 left-3 z-10 bg-mc-red text-white text-[10px] font-bold px-2.5 py-1 rounded-lg shadow-sm">
+                Save ${formatINR(saveAmt)}
+              </span>
+              <button onclick="toggleWish(event, ${p.id})" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/90 hover:bg-white shadow-sm flex items-center justify-center transition">
+                <i class="fa-${isWished ? 'solid text-mc-red' : 'regular text-gray-500'} fa-heart text-xs"></i>
+              </button>
+              <img src="${p.image}" alt="${p.name}" onerror="this.src='https://placehold.co/600x400/f6f7f9/E11D2E?text=MOBILE+CARE'" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <div class="absolute bottom-2.5 left-3 right-3 flex justify-between items-center">
+                <span class="bg-white/90 backdrop-blur text-[10px] font-bold text-gray-700 px-2 py-0.5 rounded-md shadow-xs">
+                  <i class="fa-solid fa-fire text-mc-red mr-1"></i>${p.boughtCount}
+                </span>
+                <span class="bg-mc-ink/85 text-white text-[10px] font-semibold px-2 py-0.5 rounded-md opacity-0 group-hover:opacity-100 transition">Quick View</span>
+              </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="p-4 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between text-[11px] mb-1">
+                  <span class="font-bold uppercase tracking-wider text-gray-400">${p.brand}</span>
+                  <button onclick="openProductModal(${p.id})" class="inline-flex items-center gap-1 bg-amber-50 text-amber-700 font-bold px-2 py-0.5 rounded-md">
+                    <i class="fa-solid fa-star text-amber-400 text-[10px]"></i> ${avg} <span class="text-gray-400 font-normal">(${p.reviews.length})</span>
+                  </button>
+                </div>
+
+                <h3 onclick="openProductModal(${p.id})" class="font-display font-bold text-sm sm:text-[15px] text-mc-ink leading-snug line-clamp-2 cursor-pointer hover:text-mc-red transition">${p.name}</h3>
+
+                <!-- Price + Savings -->
+                <div class="mt-2.5 flex items-baseline gap-2 flex-wrap">
+                  <span class="font-display font-extrabold text-xl text-mc-ink">${formatINR(p.price)}</span>
+                  <span class="text-xs text-gray-400 line-through">${formatINR(p.mrp)}</span>
+                  <span class="text-xs font-bold text-emerald-600">${pct}% off</span>
+                </div>
+
+                <!-- EMI Conversion Trigger -->
+                <p class="text-[11px] text-gray-500 mt-1">
+                  No-Cost EMI from <b class="text-mc-ink">${formatINR(getEMI(p.price))}/mo</b>
+                </p>
+                <p class="text-[10px] font-semibold text-emerald-600 mt-1 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> In Stock • Perunna Store
+                </p>
+              </div>
+
+              <!-- Dual Conversion CTAs -->
+              <div class="mt-4 pt-3 border-t border-gray-100 grid grid-cols-2 gap-2">
+                <button onclick="buyNow(${p.id})" class="bg-mc-red hover:bg-mc-darkRed text-white text-xs font-bold py-2.5 rounded-xl transition shadow-sm">
+                  Buy Now
+                </button>
+                <button onclick="addToCart(${p.id})" class="bg-mc-surface hover:bg-mc-ink hover:text-white text-mc-ink text-xs font-bold py-2.5 rounded-xl transition">
+                  + Add Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ---------- PRODUCT MODAL (VARIANTS + REVIEWS) ----------
+    function openProductModal(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      modalRating = 5;
+      activeVariantDelta = 0;
+      activeVariantLabel = p.variants[0].label;
+
+      const avg = getAvg(p.reviews);
+      document.getElementById('productModalContent').innerHTML = `
+        <div class="grid md:grid-cols-2 gap-7 items-start">
+          <div class="rounded-2xl overflow-hidden bg-mc-surface border border-gray-100 relative">
+            <span class="absolute top-3 left-3 bg-mc-red text-white text-[10px] font-bold px-2.5 py-1 rounded-lg">${p.badge}</span>
+            <img src="${p.image}" class="w-full h-72 object-cover">
+          </div>
+
+          <div class="space-y-3.5">
+            <div class="flex items-center gap-2 text-xs">
+              <span class="font-bold uppercase text-mc-red">${p.brand}</span>
+              <span class="text-gray-300">•</span>
+              <span class="text-emerald-600 font-semibold"><i class="fa-solid fa-check-circle mr-1"></i>Ready for Pickup / Delivery</span>
+            </div>
+
+            <h2 class="font-display font-extrabold text-2xl text-mc-ink leading-tight">${p.name}</h2>
+
+            <div class="flex items-center gap-2 text-xs">
+              <div class="flex gap-0.5">${starsHTML(avg)}</div>
+              <span class="font-bold text-mc-ink">${avg}</span>
+              <span class="text-gray-500">(${p.reviews.length} verified reviews)</span>
+            </div>
+
+            <!-- Dynamic Price -->
+            <div class="bg-mc-surface p-3.5 rounded-2xl border border-gray-100">
+              <div class="flex items-baseline gap-2.5">
+                <span id="modalPrice" class="font-display font-extrabold text-2xl text-mc-ink">${formatINR(p.price)}</span>
+                <span id="modalMrp" class="text-sm text-gray-400 line-through">${formatINR(p.mrp)}</span>
+                <span class="text-xs font-bold text-emerald-600">Inclusive of all taxes</span>
+              </div>
+              <p class="text-xs text-gray-600 mt-1">Easy EMI from <b id="modalEmi">${formatINR(getEMI(p.price))}/mo</b> • Exchange bonus applicable</p>
+            </div>
+
+            <!-- Variant Picker -->
+            <div>
+              <p class="text-xs font-bold text-gray-600 mb-1.5">Choose Variant:</p>
+              <div class="flex flex-wrap gap-2">
+                ${p.variants.map((v, idx) => `
+                  <button onclick="selectVariant(${p.id}, ${v.delta}, '${v.label}', this)" class="var-pill px-3.5 py-2 rounded-xl text-xs font-bold border transition ${idx === 0 ? 'border-mc-red bg-mc-blush text-mc-red' : 'border-gray-200 text-gray-700 hover:border-mc-red'}">
+                    ${v.label}
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+
+            <p class="text-xs text-gray-600 leading-relaxed">${p.specs}</p>
+
+            <div class="grid grid-cols-2 gap-3 pt-1">
+              <button onclick="buyNow(${p.id}, true)" class="bg-mc-red hover:bg-mc-darkRed text-white font-bold py-3.5 rounded-xl text-sm shadow-red-glow transition">
+                Buy Now
+              </button>
+              <button onclick="addToCart(${p.id}, true)" class="bg-mc-ink hover:bg-gray-800 text-white font-bold py-3.5 rounded-xl text-sm transition">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- REVIEWS AREA -->
+        <div class="mt-8 pt-6 border-t border-gray-100 grid md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="font-display font-bold text-base text-mc-ink mb-3">Customer Reviews (${p.reviews.length})</h4>
+            <div class="space-y-2.5 max-h-56 overflow-y-auto pr-1">
+              ${p.reviews.map(r => `
+                <div class="p-3.5 rounded-xl bg-mc-surface border border-gray-100">
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="font-bold text-xs text-mc-ink">${r.user}</span>
+                    <span class="text-[10px] text-gray-400">${r.date}</span>
+                  </div>
+                  <div class="text-[11px] mb-1">${starsHTML(r.rating)}</div>
+                  <p class="text-xs text-gray-600">${r.text}</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="bg-mc-blush/50 p-4 rounded-2xl border border-red-100">
+            <h4 class="font-display font-bold text-sm text-mc-ink mb-2">Rate & Review This Product</h4>
+            <form onsubmit="postReview(event, ${p.id})" class="space-y-2.5">
+              <div id="starPicker" class="flex gap-1.5 text-lg cursor-pointer">
+                ${[1,2,3,4,5].map(n => `<i onclick="setModalRating(${n})" class="fa-solid fa-star text-amber-400"></i>`).join('')}
+              </div>
+              <input id="revUser" type="text" required placeholder="Your Name" class="w-full px-3.5 py-2 rounded-xl bg-white border border-gray-200 text-xs outline-none focus:border-mc-red">
+              <textarea id="revBody" rows="2" required placeholder="How was the product or store experience?" class="w-full px-3.5 py-2 rounded-xl bg-white border border-gray-200 text-xs outline-none focus:border-mc-red"></textarea>
+              <button type="submit" class="w-full bg-mc-red hover:bg-mc-darkRed text-white font-bold py-2.5 rounded-xl text-xs transition">Submit Review</button>
+            </form>
+          </div>
+        </div>
+      `;
+
+      const m = document.getElementById('productModal');
+      m.classList.remove('hidden'); m.classList.add('flex');
+    }
+
+    function selectVariant(prodId, delta, label, btn) {
+      const p = products.find(x => x.id === prodId);
+      activeVariantDelta = delta;
+      activeVariantLabel = label;
+      const newPrice = p.price + delta;
+      const newMrp = p.mrp + delta;
+
+      document.getElementById('modalPrice').textContent = formatINR(newPrice);
+      document.getElementById('modalMrp').textContent = formatINR(newMrp);
+      document.getElementById('modalEmi').textContent = formatINR(getEMI(newPrice)) + "/mo";
+
+      document.querySelectorAll('.var-pill').forEach(el => {
+        el.className = 'var-pill px-3.5 py-2 rounded-xl text-xs font-bold border border-gray-200 text-gray-700 hover:border-mc-red transition';
+      });
+      btn.className = 'var-pill px-3.5 py-2 rounded-xl text-xs font-bold border border-mc-red bg-mc-blush text-mc-red transition';
+    }
+
+    function closeProductModal() {
+      const m = document.getElementById('productModal');
+      m.classList.add('hidden'); m.classList.remove('flex');
+    }
+
+    function setModalRating(n) {
+      modalRating = n;
+      document.querySelectorAll('#starPicker i').forEach((s, i) => {
+        s.className = i < n ? 'fa-solid fa-star text-amber-400' : 'fa-regular fa-star text-gray-300';
+      });
+    }
+
+    function postReview(e, id) {
+      e.preventDefault();
+      const user = document.getElementById('revUser').value.trim();
+      const text = document.getElementById('revBody').value.trim();
+      const p = products.find(x => x.id === id);
+      if (p) {
+        p.reviews.unshift({ user, rating: modalRating, date: "Just now", text });
+        localStorage.setItem('mc_v2_products', JSON.stringify(products));
+        renderProducts();
+        openProductModal(id);
+        showToast("Review published! Thanks for sharing.");
+      }
+    }
+
+    // ---------- CART & INSTANT BUY ----------
+    function addToCart(id, fromModal = false) {
+      const p = products.find(x => x.id === id);
+      const variantTag = fromModal ? activeVariantLabel : p.variants[0].label;
+      const price = fromModal ? (p.price + activeVariantDelta) : p.price;
+      const mrp = fromModal ? (p.mrp + activeVariantDelta) : p.mrp;
+      const key = `${id}-${variantTag}`;
+
+      const existing = cart.find(c => c.key === key);
+      if (existing) existing.qty += 1;
+      else cart.push({ key, id: p.id, name: `${p.name} (${variantTag})`, price, mrp, image: p.image, qty: 1 });
+
+      saveCart();
+      showToast("Added to your shopping bag!");
+    }
+
+    function buyNow(id, fromModal = false) {
+      addToCart(id, fromModal);
+      closeProductModal();
+      openCheckoutModal();
+    }
+
+    function updateQty(key, d) {
+      const item = cart.find(c => c.key === key);
+      if (!item) return;
+      item.qty += d;
+      if (item.qty <= 0) cart = cart.filter(c => c.key !== key);
+      saveCart();
+    }
+
+    function saveCart() {
+      localStorage.setItem('mc_v2_cart', JSON.stringify(cart));
+      const count = cart.reduce((a, b) => a + b.qty, 0);
+      const total = cart.reduce((a, b) => a + b.price * b.qty, 0);
+      const savings = cart.reduce((a, b) => a + (b.mrp - b.price) * b.qty, 0);
+
+      document.getElementById('cartBadge').textContent = count;
+      const mDot = document.getElementById('mobileCartDot');
+      mDot.textContent = count;
+      mDot.classList.toggle('hidden', count === 0);
+
+      document.getElementById('cartTotal').textContent = formatINR(total);
+      document.getElementById('cartSavings').textContent = formatINR(savings);
+      document.getElementById('checkoutTotalLabel').textContent = formatINR(total);
+      document.getElementById('checkoutBtn').disabled = cart.length === 0;
+
+      const box = document.getElementById('cartItemsContainer');
+      if (!cart.length) {
+        box.innerHTML = `<div class="text-center py-16 text-gray-400"><i class="fa-solid fa-bag-shopping text-4xl text-gray-200 mb-3"></i><p class="font-bold text-gray-600 text-sm">Your bag is empty</p><p class="text-xs mt-1">Explore our deals and add your favorites!</p></div>`;
+        return;
+      }
+
+      box.innerHTML = cart.map(c => `
+        <div class="flex gap-3 items-center p-3 rounded-2xl border border-gray-100 bg-white shadow-xs">
+          <img src="${c.image}" class="w-16 h-16 rounded-xl object-cover bg-mc-surface shrink-0">
+          <div class="flex-1 min-w-0">
+            <h4 class="font-bold text-xs text-mc-ink line-clamp-2">${c.name}</h4>
+            <p class="font-display font-extrabold text-sm text-mc-red mt-0.5">${formatINR(c.price)}</p>
+            <div class="flex items-center gap-2 mt-1.5">
+              <button onclick="updateQty('${c.key}', -1)" class="w-6 h-6 rounded-lg bg-mc-surface hover:bg-gray-200 text-xs font-bold">-</button>
+              <span class="text-xs font-bold w-4 text-center">${c.qty}</span>
+              <button onclick="updateQty('${c.key}', 1)" class="w-6 h-6 rounded-lg bg-mc-surface hover:bg-gray-200 text-xs font-bold">+</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleCart(open) {
+      const el = document.getElementById('cartDrawer');
+      el.classList.toggle('hidden', !open);
+      el.classList.toggle('flex', open);
+    }
+
+    // ---------- EXCHANGE CALCULATOR ----------
+    function calculateExchange() {
+      const base = Number(document.getElementById('exModel').value);
+      const mult = Number(document.getElementById('exCondition').value);
+      const val = Math.round((base * mult) / 100) * 100;
+      document.getElementById('exResult').textContent = formatINR(val);
+    }
+
+    function claimExchangeQuote() {
+      const model = document.getElementById('exModel').selectedOptions[0].text;
+      const cond = document.getElementById('exCondition').selectedOptions[0].text;
+      const val = document.getElementById('exResult').textContent;
+      const msg = `Hi Mobile Care! I want to exchange my ${model} (${cond}). Website estimate: ${val}.`;
+      window.open(`https://wa.me/919895323401?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // ---------- BRANDS TABS ----------
+    function switchBrandTab(tab) {
+      document.querySelectorAll('.b-tab').forEach(b => b.className = 'b-tab px-4 py-1.5 rounded-lg text-xs font-bold text-gray-500 hover:text-mc-ink transition');
+      document.getElementById(`btab-${tab}`).className = 'b-tab px-4 py-1.5 rounded-lg text-xs font-bold bg-white text-mc-red shadow-xs transition';
+
+      document.getElementById('brandsGrid').innerHTML = brandsData[tab].map(b => `
+        <button onclick="document.getElementById('desktopSearch').value='${b}'; filterBySearchText('${b}'); scrollToCatalog()" class="bg-white border border-gray-200/80 hover:border-mc-red hover:bg-mc-blush/40 rounded-2xl py-4 px-2 flex flex-col items-center justify-center transition group shadow-xs">
+          <span class="font-display font-extrabold text-sm text-mc-ink group-hover:text-mc-red transition">${b}</span>
+          <span class="text-[10px] text-gray-400 mt-0.5">Shop now →</span>
+        </button>
+      `).join('');
+    }
+
+    // ---------- CHECKOUT & SERVICES ----------
+    function openCheckoutModal() {
+      toggleCart(false);
+      const m = document.getElementById('checkoutModal');
+      m.classList.remove('hidden'); m.classList.add('flex');
+    }
+    function closeCheckoutModal() {
+      const m = document.getElementById('checkoutModal');
+      m.classList.add('hidden'); m.classList.remove('flex');
+    }
+    function submitOrder(e) {
+      e.preventDefault();
+      const oid = "MC" + Math.floor(100000 + Math.random() * 900000);
+      cart = []; saveCart(); closeCheckoutModal();
+      showToast(`Order #${oid} confirmed! We will call you shortly.`);
+    }
+    function orderViaWhatsApp() {
+      const lines = cart.map(c => `• ${c.name} x${c.qty} = ${formatINR(c.price * c.qty)}`).join('\n');
+      const total = formatINR(cart.reduce((a, b) => a + b.price * b.qty, 0));
+      window.open(`https://wa.me/919895323401?text=${encodeURIComponent(`Hi Mobile Care! New Order:\n${lines}\n\nTotal: ${total}`)}`, '_blank');
+    }
+
+    function openServiceModal(title) {
+      document.getElementById('serviceModalTitle').textContent = title;
+      const m = document.getElementById('serviceModal');
+      m.classList.remove('hidden'); m.classList.add('flex');
+    }
+    function closeServiceModal() {
+      const m = document.getElementById('serviceModal');
+      m.classList.add('hidden'); m.classList.remove('flex');
+    }
+    function submitServiceRequest(e) {
+      e.preventDefault(); e.target.reset(); closeServiceModal();
+      showToast("Repair request sent! Perunna team will call in 15 mins.");
+    }
+    function openTrackModal() {
+      showToast("Visit Mobile Care, Perunna — Open 9:30 AM to 9:00 PM!");
+    }
+
+    // ---------- INIT ----------
+    switchBrandTab('smartphones');
+    renderProducts();
+    saveCart();
+    updateWishBadge();
+    calculateExchange();
+  </script>
+</body>
+</html>
